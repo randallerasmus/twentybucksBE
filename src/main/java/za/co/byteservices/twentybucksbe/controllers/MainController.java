@@ -36,7 +36,7 @@ public class MainController {
             response.put("token", token);
             return response;
         } else {
-            throw new RuntimeException("Invalid credentials");
+            throw new RuntimeException("Invalid credentials used");
         }
     }
 }

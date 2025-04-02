@@ -7,6 +7,7 @@ import za.co.byteservices.twentybucksbe.models.User;
 import za.co.byteservices.twentybucksbe.repository.BetRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class BetService {
@@ -25,5 +26,9 @@ public class BetService {
             bet.setEndDate(LocalDateTime.now().plusDays(bet.getDuration()));
         }
         return betRepository.save(bet);
+    }
+
+    public List<Bet> getBetsByUser(User user) {
+        return betRepository.findByCreatedBy(user);
     }
 }

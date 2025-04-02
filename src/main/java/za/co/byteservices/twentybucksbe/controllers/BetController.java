@@ -6,11 +6,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import za.co.byteservices.twentybucksbe.models.Bet;
 import za.co.byteservices.twentybucksbe.models.User;
+import za.co.byteservices.twentybucksbe.repository.BetRepository;
 import za.co.byteservices.twentybucksbe.repository.UserRepository;
 import za.co.byteservices.twentybucksbe.services.BetService;
 import za.co.byteservices.twentybucksbe.dto.BetRequestDto;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/bets")
@@ -22,6 +24,9 @@ public class BetController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BetRepository betRepository;
 
     @PostMapping
     public Bet createBet(@RequestBody BetRequestDto request, Principal principal) {
@@ -44,5 +49,14 @@ public class BetController {
         return betService.createBet(bet, user);
     }
 
+    @GetMapping("/my-bets")
+    public List<Bet> getMyBets(Principal principal) {
+        String username = principal.getName();
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        return betRepository.findByCreatedBy(user); // Now this will match
+    }
 
 }

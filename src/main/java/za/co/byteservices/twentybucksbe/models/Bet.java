@@ -38,7 +38,9 @@ public class Bet {
     @JoinColumn(name = "created_at")
     private LocalDateTime createdAt;
 
-//    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private BetStatus status;
 
     @ManyToOne
     @JoinColumn(name = "created_by")

@@ -56,7 +56,7 @@ public class BetController {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return betRepository.findByCreatedBy(user); // Now this will match
+        return betService.getBetsByUser(user); // Now this will match
     }
 
 }
